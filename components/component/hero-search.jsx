@@ -7,7 +7,7 @@ export function HeroSearch() {
   return (
     <div className="flex flex-col">
       <main className="flex-1 mb-8">
-        <section className="bg-muted py-12 md:py-20 lg:py-28">
+        <section className="bg-muted py-12 md:py-20 lg:py-24">
           <div className="container space-y-6 px-4 md:px-6 text-center">
             <div className="space-y-3">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
