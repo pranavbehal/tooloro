@@ -1,15 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { HeroSearch } from "@/components/component/hero-search";
-import { ProductCard } from "@/components/component/product-card";
-import { Card_with_image_v5 } from "@/components/component/new-card";
+import { LineProductCards } from "@/components/component/line-product-cards";
 
 export default function Home() {
   return (
     <>
       <HeroSearch />
-      <Card_with_image_v5 />
-      <ProductCard />
+      <LineProductCards />
     </>
   );
 }
