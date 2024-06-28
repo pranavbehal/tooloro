@@ -25,11 +25,11 @@ export function Navbar() {
           Chat
         </Link>
         <Link
-          href="/tutorials"
+          href="/learn"
           className="text-m font-medium hover:underline underline-offset-4"
           prefetch={false}
         >
-          Tutorials
+          Learn
         </Link>
         <Link
           href="#"

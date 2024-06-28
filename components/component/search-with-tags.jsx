@@ -2,13 +2,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  BriefcaseIcon,
-  FlowerIcon,
-  HeartIcon,
-  LightbulbIcon,
-  MountainSnow,
+  PenLine,
+  LineChart,
   SearchIcon,
   SettingsIcon,
+  Paintbrush,
+  ListChecks,
+  Bot,
 } from "lucide-react";
 
 export function SearchWithTags() {
@@ -31,14 +31,14 @@ export function SearchWithTags() {
               <form>
                 <div className="relative z-10 flex space-x-3 p-3 border bg-background rounded-lg shadow-lg">
                   <div className="flex-[1_0_0%]">
-                    <Label htmlFor="article" className="sr-only">
+                    <Label htmlFor="product" className="sr-only">
                       Search for products
                     </Label>
                     <Input
                       name="article"
                       className="h-full"
                       id="article"
-                      placeholder="Search article"
+                      placeholder="Search for products"
                     />
                   </div>
                   <div className="flex-[0_0_auto]">
@@ -102,28 +102,30 @@ export function SearchWithTags() {
             </div>
             <div className="mt-10 sm:mt-20 flex flex-wrap gap-2 justify-center">
               <Button variant={"outline"}>
-                <BriefcaseIcon className="flex-shrink-0 w-3 h-auto mr-2" />
-                Business
+                <PenLine className="flex-shrink-0 w-3.5 h-auto mr-2" />
+                Writing
               </Button>
               <Button variant={"outline"}>
-                <SettingsIcon className="flex-shrink-0 w-3 h-auto mr-2" />
-                Strategy
+                <SettingsIcon className="flex-shrink-0 w-3.5 h-auto mr-2" />
+                Management
+              </Button>
+
+              <Button variant={"outline"}>
+                <LineChart className="flex-shrink-0 w-3.5 h-auto mr-2" />
+                Marketing
               </Button>
               <Button variant={"outline"}>
-                <HeartIcon className="flex-shrink-0 w-3 h-auto mr-2" />
-                Health
+                <Paintbrush className="flex-shrink-0 w-3.5 h-auto mr-2" />
+                Design & Development
               </Button>
               <Button variant={"outline"}>
-                <LightbulbIcon className="flex-shrink-0 w-3 h-auto mr-2" />
-                Creative
+                <Bot className="flex-shrink-0 w-3.5 h-auto mr-2" />
+                AI
               </Button>
+
               <Button variant={"outline"}>
-                <FlowerIcon className="flex-shrink-0 w-3 h-auto mr-2" />
-                Environment
-              </Button>
-              <Button variant={"outline"}>
-                <MountainSnow className="flex-shrink-0 w-3 h-auto mr-2" />
-                Adventure
+                <ListChecks className="flex-shrink-0 w-3.5 h-auto mr-2" />
+                Productivity & Collaboration
               </Button>
             </div>
           </div>

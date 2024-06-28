@@ -31,10 +31,9 @@ export function OldProductCard() {
 export function NewProductCard() {
   return (
     <>
-      {" "}
       <div className="group relative">
         <Card className="w-[350px]">
-          <div className="h-[200px] w-[350px] overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75">
+          <div className="h-[200px] w-[350px] overflow-hidden rounded-md bg-gray-200 group-hover:opacity-90 duration-300">
             <Image
               src="/placeholder.jpg"
               alt="Image"
