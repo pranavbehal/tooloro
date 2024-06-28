@@ -33,11 +33,11 @@ export function NewProductCard() {
     <>
       <div className="group relative">
         <Card className="w-[350px]">
-          <div className="h-[200px] w-[350px] overflow-hidden rounded-md bg-gray-200 group-hover:opacity-90 duration-300">
+          <div className="h-[200px] w-[350px] overflow-hidden rounded-md bg-gray-200 group-hover:opacity-90 duration-300 rounded-b-none ">
             <Image
               src="/placeholder.jpg"
               alt="Image"
-              className="h-full w-full object-cover object-center"
+              className="h-full w-full object-cover object-center "
               width={350}
               height={200}
             />
