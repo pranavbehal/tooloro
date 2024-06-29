@@ -4,7 +4,7 @@ import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 
 export function Navbar() {
   return (
-    <header className="flex h-20 w-full items-center justify-between px-4 md:px-12">
+    <header className="flex h-20 w-full items-center justify-between px-4 md:px-12 nav">
       <Link href="/" className="flex items-center gap-2" prefetch={false}>
         <MountainIcon className="h-6 w-6" />
         <span className="text-lg font-semibold">Tooloro</span>
@@ -61,43 +61,50 @@ export function Navbar() {
           <div className="grid gap-4 py-6">
             <Link href="#" className="flex items-center gap-2" prefetch={false}>
               <MountainIcon className="h-6 w-6" />
-              <span className="text-lg font-semibold">Acme Inc</span>
+              <span className="text-lg font-semibold">Tooloro</span>
             </Link>
             <nav className="grid gap-2">
               <Link
-                href="#"
+                href="/"
                 className="flex items-center gap-2 text-lg font-medium"
                 prefetch={false}
               >
                 Home
               </Link>
               <Link
-                href="#"
+                href="/products"
                 className="flex items-center gap-2 text-lg font-medium"
                 prefetch={false}
               >
-                Features
+                All Products
+              </Link>
+              <Link
+                href="/chat"
+                className="flex items-center gap-2 text-lg font-medium"
+                prefetch={false}
+              >
+                Chat
+              </Link>
+              <Link
+                href="/learn"
+                className="flex items-center gap-2 text-lg font-medium"
+                prefetch={false}
+              >
+                Learn
               </Link>
               <Link
                 href="#"
                 className="flex items-center gap-2 text-lg font-medium"
                 prefetch={false}
               >
-                Pricing
+                Advertise/Add Product
               </Link>
               <Link
-                href="#"
+                href="/deals"
                 className="flex items-center gap-2 text-lg font-medium"
                 prefetch={false}
               >
-                About
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center gap-2 text-lg font-medium"
-                prefetch={false}
-              >
-                Contact
+                Deals
               </Link>
             </nav>
             <div className="flex flex-col gap-2">

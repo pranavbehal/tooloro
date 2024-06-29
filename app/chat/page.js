@@ -1,3 +1,7 @@
+"use client";
+
+import BlankChat from "@/components/component/blank-chat";
+
 export default function Chat() {
-  return <h1>Chat Page</h1>;
+  return <BlankChat />;
 }
