@@ -25,13 +25,13 @@ export function Navbar() {
         >
           Chat
         </Link>
-        <Link
+        {/* <Link
           href="/learn"
           className="text-m font-medium hover:underline underline-offset-4"
           prefetch={false}
         >
           Learn
-        </Link>
+        </Link> */}
         <Link
           href="#"
           className="text-m font-medium hover:underline underline-offset-4"
@@ -98,13 +98,13 @@ export function Navbar() {
               >
                 Chat
               </Link>
-              <Link
+              {/* <Link
                 href="/learn"
                 className="flex items-center gap-2 text-lg font-medium"
                 prefetch={false}
               >
                 Learn
-              </Link>
+              </Link> */}
               <Link
                 href="#"
                 className="flex items-center gap-2 text-lg font-medium"

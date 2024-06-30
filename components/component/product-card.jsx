@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function OldProductCard() {
   return (
@@ -51,7 +52,10 @@ export function NewProductCard(props) {
               <p className="text-primary font-semibold">{props.deal}</p>
             )}
             <div className="flex justify-between mt-4">
-              <Button variant="outline">Learn More</Button>
+              <Link href="/products/example">
+                {" "}
+                <Button variant="outline">Learn More</Button>
+              </Link>
               <Button>Visit Product</Button>
             </div>
           </CardContent>
