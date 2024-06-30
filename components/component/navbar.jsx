@@ -33,7 +33,7 @@ export function Navbar() {
           Learn
         </Link> */}
         <Link
-          href="#"
+          href="/advertise"
           className="text-m font-medium hover:underline underline-offset-4"
           prefetch={false}
         >
@@ -106,7 +106,7 @@ export function Navbar() {
                 Learn
               </Link> */}
               <Link
-                href="#"
+                href="/advertise"
                 className="flex items-center gap-2 text-lg font-medium"
                 prefetch={false}
               >
