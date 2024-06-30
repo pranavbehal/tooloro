@@ -13,7 +13,7 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogPostPage({ params }) {
-  const posts = await fetch(process.env.URL + "api/content").then((res) =>
+  const posts = await fetch(process.env.URL + "/api/content").then((res) =>
     res.json()
   );
 
