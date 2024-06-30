@@ -3,7 +3,7 @@ import ProductInfo from "@/components/component/product-info";
 export const revalidate = 420;
 
 export async function generateStaticParams() {
-  const posts = await fetch("http://localhost:3000/api/content").then((res) =>
+  const posts = await fetch(process.env.URL + "api/content").then((res) =>
     res.json()
   );
 
@@ -13,7 +13,7 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogPostPage({ params }) {
-  const posts = await fetch("http://localhost:3000/api/content").then((res) =>
+  const posts = await fetch(process.env.URL + "api/content").then((res) =>
     res.json()
   );
 
