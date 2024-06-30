@@ -2,7 +2,6 @@ import Image from "next/image";
 import { OldProductCard, NewProductCard } from "./product-card";
 
 export function LineProductCards(props) {
-  console.log(props.title);
   return (
     <>
       <div className="container mx-auto p-0 mt-4 mb-12">
@@ -20,10 +19,10 @@ export function LineProductCards(props) {
         )}
 
         <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-4">
-          <NewProductCard />
-          <NewProductCard />
-          <NewProductCard />
-          <NewProductCard />
+          <NewProductCard deal={props.deals && props.deals[0]} />
+          <NewProductCard deal={props.deals && props.deals[1]} />
+          <NewProductCard deal={props.deals && props.deals[2]} />
+          <NewProductCard deal={props.deals && props.deals[3]} />
         </div>
       </div>
     </>

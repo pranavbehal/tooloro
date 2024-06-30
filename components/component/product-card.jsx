@@ -28,7 +28,7 @@ export function OldProductCard() {
   );
 }
 
-export function NewProductCard() {
+export function NewProductCard(props) {
   return (
     <>
       <div className="group relative">
@@ -47,6 +47,9 @@ export function NewProductCard() {
             <p className="text-muted-foreground mt-1">
               A short description of the product.
             </p>
+            {props.deal && (
+              <p className="text-primary font-semibold">{props.deal}</p>
+            )}
             <div className="flex justify-between mt-4">
               <Button variant="outline">Learn More</Button>
               <Button>Visit Product</Button>

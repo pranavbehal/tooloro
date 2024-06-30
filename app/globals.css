@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Makes the page stop shifting when there is a scrollbar */
+
+html {
+  overflow-x: hidden;
+  margin-right: calc(-1 * (100vw - 100%));
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

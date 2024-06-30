@@ -10,7 +10,7 @@ export function HeroSearch() {
         <section className="bg-muted py-12 md:py-20 lg:py-24">
           <div className="container space-y-6 px-4 md:px-6 text-center">
             <div className="space-y-3">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
+              <h1 className="text-4xl font-bold  tracking-tighter sm:text-4xl md:text-4xl lg:text-6xl">
                 Software for Your Needs
               </h1>
               <p className="max-w-[700px] mx-auto text-muted-foreground md:text-xl lg:text-base/relaxed">
