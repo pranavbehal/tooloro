@@ -35,27 +35,44 @@ export function NewProductCard(props) {
       <div className="group relative">
         <Card className="w-[350px]">
           <div className="h-[200px] w-[350px] overflow-hidden rounded-md bg-gray-200 group-hover:opacity-90 duration-300 rounded-b-none ">
-            <Image
-              src="/placeholder.jpg"
+            {/* <Image
+              src={props.image ? props.image : "/placeholder.jpg"}
               alt="Image"
               className="h-full w-full object-cover object-center "
               width={350}
               height={200}
-            />
+            /> */}
+            {props.image ? (
+              <Image
+                src={props.image}
+                alt="Image"
+                className="h-full w-full object-cover object-center"
+                width={350}
+                height={200}
+              />
+            ) : (
+              <div className="h-full w-full flex items-center justify-center text-gray-400">
+                No image selected
+              </div>
+            )}
           </div>
           <CardContent>
-            <h3 className="text-xl font-bold mt-5">Product Name</h3>
+            <h3 className="text-xl font-bold mt-5">
+              {props.name ? props.name : "Product Name"}
+            </h3>
             <p className="text-muted-foreground mt-1">
-              A short description of the product.
+              {props.shortDescription
+                ? props.shortDescription
+                : "A short description of the product."}
             </p>
             {props.deal && (
               <p className="text-primary font-semibold">{props.deal}</p>
             )}
             <div className="flex justify-between mt-4">
               <Link href="/products/example">
-                {" "}
                 <Button variant="outline">Learn More</Button>
               </Link>
+              <Link href={props.website ? props.website : "#"}></Link>
               <Button>Visit Product</Button>
             </div>
           </CardContent>
