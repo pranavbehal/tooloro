@@ -2,6 +2,15 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import {
+  PenLine,
+  LineChart,
+  SearchIcon,
+  SettingsIcon,
+  Paintbrush,
+  ListChecks,
+  Bot,
+} from "lucide-react";
 
 export function OldProductCard() {
   return (
@@ -30,6 +39,13 @@ export function OldProductCard() {
 }
 
 export function NewProductCard(props) {
+  const renderButton = (key, icon, label) => (
+    <Button key={key}>
+      {icon}
+      {label}
+    </Button>
+  );
+
   return (
     <>
       <div className="group relative">
@@ -57,9 +73,21 @@ export function NewProductCard(props) {
             )}
           </div>
           <CardContent>
-            <h3 className="text-xl font-bold mt-5">
-              {props.name ? props.name : "Product Name"}
-            </h3>
+            <div className="flex items-center gap-3 mt-5">
+              {props.logo && (
+                <Image
+                  src={props.logo}
+                  alt="logo"
+                  width={24}
+                  height={24}
+                  className="rounded-full"
+                />
+              )}
+              <h3 className="text-xl font-bold ">
+                {props.name ? props.name : "Product Name"}
+              </h3>
+            </div>
+
             <p className="text-muted-foreground mt-1">
               {props.shortDescription
                 ? props.shortDescription
@@ -68,12 +96,24 @@ export function NewProductCard(props) {
             {props.deal && (
               <p className="text-primary font-semibold">{props.deal}</p>
             )}
+            {/* {props.} */}
             <div className="flex justify-between mt-4">
               <Link href="/products/example">
                 <Button variant="outline">Learn More</Button>
               </Link>
-              <Link href={props.website ? props.website : "#"}></Link>
-              <Button>Visit Product</Button>
+              {/* This commented out link is when the user doesn't provide a https:// */}
+              {/* <a
+                href={`https://${props.website ? props.website : "#"}`}
+                target="_blank"
+                rel="noopener"
+              > */}
+              <a
+                href={props.website ? props.website : "#"}
+                target="_blank"
+                rel="noopener"
+              >
+                <Button>Visit Product</Button>
+              </a>
             </div>
           </CardContent>
         </Card>

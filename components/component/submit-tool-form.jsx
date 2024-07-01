@@ -15,6 +15,21 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { NewProductCard } from "./product-card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  PenLine,
+  LineChart,
+  SearchIcon,
+  SettingsIcon,
+  Paintbrush,
+  ListChecks,
+  Bot,
+} from "lucide-react";
 
 export default function SubmitToolForm() {
   const [formData, setFormData] = useState({
@@ -31,6 +46,7 @@ export default function SubmitToolForm() {
   });
 
   const [previewImage, setPreviewImage] = useState(null);
+  const [previewLogo, setPreviewLogo] = useState(null);
 
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -59,12 +75,19 @@ export default function SubmitToolForm() {
           setPreviewImage(reader.result);
         };
         reader.readAsDataURL(file);
+      } else if (name === "logo") {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviewLogo(reader.result);
+        };
+        reader.readAsDataURL(file);
       }
     } else {
       setFormData((prevData) => ({
         ...prevData,
         [name]: value,
       }));
+      console.log(formData);
     }
   };
 
@@ -89,18 +112,45 @@ export default function SubmitToolForm() {
     } = formData;
 
     const isValid =
-      shortDescription.length <= 250 &&
+      shortDescription.length <= 40 &&
       name.trim() !== "" &&
       email.trim() !== "" &&
       toolName.trim() !== "" &&
       logo !== null &&
       image !== null &&
-      tags.length > 0 &&
       websiteLink.trim() !== "" &&
       tutorial.trim() !== "";
 
     setIsFormValid(isValid);
   }, [formData]);
+
+  const [toggles, setToggles] = useState({
+    writing: false,
+    management: false,
+    marketing: false,
+    design: false,
+    ai: false,
+    productivity: false,
+  });
+
+  const handleToggle = (key) => {
+    setToggles((prev) => ({ ...prev, [key]: !prev[key] }));
+    // prev.forEach((key) => {
+    //   if (key) {setFormData((prev) => ({ ...prev, [key]: true }));}
+    // })
+  };
+
+  const renderButton = (key, icon, label) => (
+    <Button
+      variant={toggles[key] ? "default" : "outline"}
+      onClick={() => {
+        handleToggle(key);
+      }}
+    >
+      {icon}
+      {label}
+    </Button>
+  );
 
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12 max-w-6xl mx-auto py-12 px-4">
@@ -143,11 +193,11 @@ export default function SubmitToolForm() {
           <Textarea
             id="shortDescription"
             name="shortDescription"
-            placeholder="Enter a short description (to be shown on your preview card - max 250 characters)"
+            placeholder="Enter a short description (to be shown on your preview card - max 40 characters)"
             value={formData.shortDescription}
             onChange={handleInputChange}
             className="resize-none"
-            maxLength={250}
+            maxLength={40}
           />
         </div>
         <div className="space-y-1">
@@ -163,7 +213,10 @@ export default function SubmitToolForm() {
           />
         </div>
         <div className="space-y-1">
-          <Label htmlFor="deal">Deal</Label>
+          <Label htmlFor="deal">
+            Deal (optional, but your product will also be posted on the
+            &quot;Deals&quot; page if you do this!)
+          </Label>
           <Textarea
             id="deal"
             name="deal"
@@ -171,11 +224,13 @@ export default function SubmitToolForm() {
             value={formData.deal}
             onChange={handleInputChange}
             className="resize-none"
-            maxLength={250}
+            maxLength={40}
           />
         </div>
         <div className="space-y-1">
-          <Label htmlFor="logo">Tool Logo</Label>
+          <Label htmlFor="logo">
+            Tool Logo (your tool&apos;s logo, displayed next to its name)
+          </Label>
           <Input
             id="logo"
             name="logo"
@@ -185,7 +240,10 @@ export default function SubmitToolForm() {
           />
         </div>
         <div className="space-y-1">
-          <Label htmlFor="image">Tool Image</Label>
+          <Label htmlFor="image">
+            Tool Image (the main image you want users to see, like a landing
+            page)
+          </Label>
           <Input
             id="image"
             name="image"
@@ -195,11 +253,46 @@ export default function SubmitToolForm() {
           />
         </div>
         <div className="space-y-1">
-          <Label htmlFor="tags">Tags</Label>
-          <div />
+          <Label htmlFor="tags">
+            Tags (choose whichever ones represent your tool)
+          </Label>{" "}
+          <div className="  flex flex-wrap gap-2 ">
+            {renderButton(
+              "writing",
+              <PenLine className="flex-shrink-0 w-3.5 h-auto mr-2" />,
+              "Writing"
+            )}
+            {renderButton(
+              "management",
+              <SettingsIcon className="flex-shrink-0 w-3.5 h-auto mr-2" />,
+              "Management"
+            )}
+            {renderButton(
+              "marketing",
+              <LineChart className="flex-shrink-0 w-3.5 h-auto mr-2" />,
+              "Marketing"
+            )}
+            {renderButton(
+              "design",
+              <Paintbrush className="flex-shrink-0 w-3.5 h-auto mr-2" />,
+              "Design & Development"
+            )}
+            {renderButton(
+              "ai",
+              <Bot className="flex-shrink-0 w-3.5 h-auto mr-2" />,
+              "AI"
+            )}
+            {renderButton(
+              "productivity",
+              <ListChecks className="flex-shrink-0 w-3.5 h-auto mr-2" />,
+              "Productivity & Collaboration"
+            )}
+          </div>
         </div>
         <div className="space-y-1">
-          <Label htmlFor="websiteLink">Website Link</Label>
+          <Label htmlFor="websiteLink">
+            Website Link - please add the https:// or it will not work!
+          </Label>
           <Input
             id="websiteLink"
             name="websiteLink"
@@ -214,7 +307,7 @@ export default function SubmitToolForm() {
           <Textarea
             id="tutorial"
             name="tutorial"
-            placeholder="Talk about how to use the tutorial (to be shown on your product's page)"
+            placeholder="Talk about how to use your product (to be shown on your product's page)"
             value={formData.tutorial}
             onChange={handleInputChange}
             className="resize-none"
@@ -222,21 +315,27 @@ export default function SubmitToolForm() {
           />
         </div>
       </div>
-      <div className="flex flex-col gap-6">
-        <h1>Preview Your Tool</h1>
-        <h3>This is what your posting will look like.</h3>
+      <div className="flex flex-col gap-6 center items-center">
+        <h1 className="text-2xl font-bold">Preview Your Tool</h1>
+        <h3 className="text-lg leading-none">
+          This is what your posting will look like.
+        </h3>
 
         <NewProductCard
+          logo={previewLogo}
           image={previewImage}
           name={formData.toolName || ""}
           shortDescription={formData.shortDescription || ""}
           deal={formData.deal || ""}
           website={formData.websiteLink || ""}
         />
+
+        <Button disabled={!isFormValid} className="ml-auto mr-auto mt-3">
+          {!isFormValid
+            ? "Please fill out all required fields"
+            : "Continue to Checkout"}
+        </Button>
       </div>
-      <Button disabled={!isFormValid} className="ml-auto">
-        Continue to Checkout
-      </Button>
     </div>
   );
 }
