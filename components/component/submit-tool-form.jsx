@@ -11,6 +11,7 @@ import {
   CardTitle,
   CardContent,
   CardFooter,
+  CardDescription,
 } from "@/components/ui/card";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   PenLine,
   LineChart,
@@ -133,42 +135,15 @@ export default function SubmitToolForm() {
     productivity: false,
   });
 
-  // const handleToggle = (key) => {
-  //   setToggles((prev) => ({ ...prev, [key]: !prev[key] }));
-  // };
-
-  // const handleToggle = (key) => {
-  //   setToggles((prev) => {
-  //     const newToggles = { ...prev, [key]: !prev[key] };
-
-  //     const newTags = Object.entries(newToggles)
-  //       .filter(([, isActive]) => isActive)
-  //       .map(([tag]) => tag);
-
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       tags: newTags,
-  //     }));
-  //     console.log(formData);
-  //     alert(FormData.tags)
-
-  //     return newToggles;
-  //   });
-  // };
-
   const handleToggle = (key) => {
     setToggles((prev) => ({ ...prev, [key]: !prev[key] }));
+    setFormData((prevData) => {
+      const updatedTags = prevData.tags.includes(key)
+        ? prevData.tags.filter((tag) => tag !== key)
+        : [...prevData.tags, key];
 
-    const newTags = Object.entries(toggles)
-      .filter(([, isActive]) => isActive)
-      .map(([tag]) => tag);
-
-    setFormData((prevData) => ({
-      ...prevData,
-      tags: newTags,
-    }));
-
-    console.log(formData.tags, newTags);
+      return { ...prevData, tags: updatedTags };
+    });
   };
 
   const renderButton = (key, icon, label) => (
@@ -181,6 +156,37 @@ export default function SubmitToolForm() {
       {icon}
       {label}
     </Button>
+  );
+
+  /* Pricing Code */
+  const [selectedFeatures, setSelectedFeatures] = useState([]);
+  const features = [
+    {
+      name: "Name Here",
+      price: 49,
+      description: "Description Here",
+    },
+    {
+      name: "Name Here",
+      price: 15,
+      description: "Description Here",
+    },
+    {
+      name: "Name Here",
+      price: 30,
+      description: "Description Here",
+    },
+  ];
+  const handleFeatureSelect = (feature) => {
+    if (selectedFeatures.includes(feature)) {
+      setSelectedFeatures(selectedFeatures.filter((f) => f !== feature));
+    } else {
+      setSelectedFeatures([...selectedFeatures, feature]);
+    }
+  };
+  const total = selectedFeatures.reduce(
+    (acc, feature) => acc + features.find((f) => f.name === feature).price,
+    0
   );
 
   return (
@@ -360,6 +366,47 @@ export default function SubmitToolForm() {
           deal={formData.deal || ""}
           website={formData.websiteLink || ""}
         />
+
+        <h1 className="text-2xl font-bold mt-14">Pricing</h1>
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Pricing</CardTitle>
+            <CardDescription>Select the features you need.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4">
+              {features.map((feature) => (
+                <div
+                  key={feature.name}
+                  className="flex items-center justify-between rounded-md border border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-primary"
+                >
+                  <div>
+                    <h3 className="font-medium">{feature.name}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {feature.description}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-semibold">
+                      ${feature.price}
+                    </span>
+                    <Checkbox
+                      checked={selectedFeatures.includes(feature.name)}
+                      onCheckedChange={() => handleFeatureSelect(feature.name)}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+          <CardFooter>
+            <div className="flex items-center justify-between">
+              <span className="text-lg font-bold">
+                Total: ${total.toFixed(2)}
+              </span>
+            </div>
+          </CardFooter>
+        </Card>
 
         <Button disabled={!isFormValid} className="ml-auto mr-auto mt-3">
           {!isFormValid

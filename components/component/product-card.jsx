@@ -87,7 +87,6 @@ export function NewProductCard(props) {
                 {props.name ? props.name : "Product Name"}
               </h3>
             </div>
-
             <p className="text-muted-foreground mt-1">
               {props.shortDescription
                 ? props.shortDescription
