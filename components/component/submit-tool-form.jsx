@@ -159,22 +159,32 @@ export default function SubmitToolForm() {
   );
 
   /* Pricing Code */
-  const [selectedFeatures, setSelectedFeatures] = useState([]);
+  const [selectedFeatures, setSelectedFeatures] = useState([
+    "Base price",
+    "Show my logo on my post",
+  ]);
   const features = [
     {
-      name: "Name Here",
+      name: "Base price",
       price: 49,
-      description: "Description Here",
+      discountPrice: 39,
+      priceToUse: 39,
+      description: "Description 1",
     },
     {
-      name: "Name Here",
-      price: 15,
-      description: "Description Here",
+      name: "Show my logo on my post",
+      price: 20,
+      discountPrice: 15,
+      priceToUse: 15,
+      description: "Helps promote your brand too!",
     },
     {
-      name: "Name Here",
+      name: "Indexed by our AI Chatbot",
       price: 30,
-      description: "Description Here",
+      discountPrice: 25,
+      priceToUse: 25,
+      description:
+        "Your tool could be promoted via our AI Chatbot when a user asks for recommendations",
     },
   ];
   const handleFeatureSelect = (feature) => {
@@ -184,8 +194,9 @@ export default function SubmitToolForm() {
       setSelectedFeatures([...selectedFeatures, feature]);
     }
   };
+
   const total = selectedFeatures.reduce(
-    (acc, feature) => acc + features.find((f) => f.name === feature).price,
+    (acc, feature) => acc + features.find((f) => f.name === feature).priceToUse,
     0
   );
 
@@ -368,11 +379,7 @@ export default function SubmitToolForm() {
         />
 
         <h1 className="text-2xl font-bold mt-14">Pricing</h1>
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle>Pricing</CardTitle>
-            <CardDescription>Select the features you need.</CardDescription>
-          </CardHeader>
+        <Card className="w-[400px] pt-7">
           <CardContent>
             <div className="grid gap-4">
               {features.map((feature) => (
@@ -387,24 +394,36 @@ export default function SubmitToolForm() {
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-lg font-semibold">
+                    <span
+                      className={`text-lg font-semibold ${
+                        feature.discountPrice &&
+                        "line-through !font-normal !text-base"
+                      }`}
+                    >
                       ${feature.price}
                     </span>
-                    <Checkbox
-                      checked={selectedFeatures.includes(feature.name)}
-                      onCheckedChange={() => handleFeatureSelect(feature.name)}
-                    />
+                    {feature.discountPrice && (
+                      <span className="text-lg font-semibold ">
+                        ${feature.discountPrice}
+                      </span>
+                    )}
+                    {feature.name === "Base price" ? null : (
+                      <Checkbox
+                        checked={selectedFeatures.includes(feature.name)}
+                        onCheckedChange={() =>
+                          handleFeatureSelect(feature.name)
+                        }
+                      />
+                    )}
                   </div>
                 </div>
               ))}
             </div>
           </CardContent>
           <CardFooter>
-            <div className="flex items-center justify-between">
-              <span className="text-lg font-bold">
-                Total: ${total.toFixed(2)}
-              </span>
-            </div>
+            <span className="text-lg font-semibold ml-auto mr-auto ">
+              Total: ${total.toFixed(2)}
+            </span>
           </CardFooter>
         </Card>
 
