@@ -91,12 +91,12 @@ export default function SubmitToolForm() {
     }
   };
 
-  const handleTagsChange = (tags) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      tags,
-    }));
-  };
+  // const handleTagsChange = (tags) => {
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     tags,
+  //   }));
+  // };
 
   useEffect(() => {
     const {
@@ -133,11 +133,42 @@ export default function SubmitToolForm() {
     productivity: false,
   });
 
+  // const handleToggle = (key) => {
+  //   setToggles((prev) => ({ ...prev, [key]: !prev[key] }));
+  // };
+
+  // const handleToggle = (key) => {
+  //   setToggles((prev) => {
+  //     const newToggles = { ...prev, [key]: !prev[key] };
+
+  //     const newTags = Object.entries(newToggles)
+  //       .filter(([, isActive]) => isActive)
+  //       .map(([tag]) => tag);
+
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       tags: newTags,
+  //     }));
+  //     console.log(formData);
+  //     alert(FormData.tags)
+
+  //     return newToggles;
+  //   });
+  // };
+
   const handleToggle = (key) => {
     setToggles((prev) => ({ ...prev, [key]: !prev[key] }));
-    // prev.forEach((key) => {
-    //   if (key) {setFormData((prev) => ({ ...prev, [key]: true }));}
-    // })
+
+    const newTags = Object.entries(toggles)
+      .filter(([, isActive]) => isActive)
+      .map(([tag]) => tag);
+
+    setFormData((prevData) => ({
+      ...prevData,
+      tags: newTags,
+    }));
+
+    console.log(formData.tags, newTags);
   };
 
   const renderButton = (key, icon, label) => (
