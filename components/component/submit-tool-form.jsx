@@ -100,6 +100,51 @@ export default function SubmitToolForm() {
   //   }));
   // };
 
+  /* Pricing Code */
+  const features = [
+    {
+      name: "Base price",
+      price: 49,
+      discountPrice: 39,
+      priceToUse: 39,
+      description: "The base price to simply post your product",
+    },
+    {
+      name: "Show my logo on my post",
+      price: 20,
+      discountPrice: 15,
+      priceToUse: 15,
+      description: "Helps promote your brand too!",
+    },
+    {
+      name: "Indexed by our AI Chatbot",
+      price: 30,
+      discountPrice: 25,
+      priceToUse: 25,
+      description:
+        "Your tool could be promoted via our AI Chatbot when a user asks for recommendations",
+    },
+  ];
+
+  const [selectedFeatures, setSelectedFeatures] = useState([
+    features[0].name,
+    features[1].name,
+    features[2].name,
+  ]);
+
+  const handleFeatureSelect = (feature) => {
+    if (selectedFeatures.includes(feature)) {
+      setSelectedFeatures(selectedFeatures.filter((f) => f !== feature));
+    } else {
+      setSelectedFeatures([...selectedFeatures, feature]);
+    }
+  };
+
+  const total = selectedFeatures.reduce(
+    (acc, feature) => acc + features.find((f) => f.name === feature).priceToUse,
+    0
+  );
+
   useEffect(() => {
     const {
       shortDescription,
@@ -118,13 +163,13 @@ export default function SubmitToolForm() {
       name.trim() !== "" &&
       email.trim() !== "" &&
       toolName.trim() !== "" &&
-      logo !== null &&
+      (selectedFeatures.includes(features[1].name) ? logo !== null : true) &&
       image !== null &&
       websiteLink.trim() !== "" &&
       tutorial.trim() !== "";
 
     setIsFormValid(isValid);
-  }, [formData]);
+  }, [formData, selectedFeatures]);
 
   const [toggles, setToggles] = useState({
     writing: false,
@@ -156,48 +201,6 @@ export default function SubmitToolForm() {
       {icon}
       {label}
     </Button>
-  );
-
-  /* Pricing Code */
-  const [selectedFeatures, setSelectedFeatures] = useState([
-    "Base price",
-    "Show my logo on my post",
-  ]);
-  const features = [
-    {
-      name: "Base price",
-      price: 49,
-      discountPrice: 39,
-      priceToUse: 39,
-      description: "Description 1",
-    },
-    {
-      name: "Show my logo on my post",
-      price: 20,
-      discountPrice: 15,
-      priceToUse: 15,
-      description: "Helps promote your brand too!",
-    },
-    {
-      name: "Indexed by our AI Chatbot",
-      price: 30,
-      discountPrice: 25,
-      priceToUse: 25,
-      description:
-        "Your tool could be promoted via our AI Chatbot when a user asks for recommendations",
-    },
-  ];
-  const handleFeatureSelect = (feature) => {
-    if (selectedFeatures.includes(feature)) {
-      setSelectedFeatures(selectedFeatures.filter((f) => f !== feature));
-    } else {
-      setSelectedFeatures([...selectedFeatures, feature]);
-    }
-  };
-
-  const total = selectedFeatures.reduce(
-    (acc, feature) => acc + features.find((f) => f.name === feature).priceToUse,
-    0
   );
 
   return (
@@ -275,18 +278,20 @@ export default function SubmitToolForm() {
             maxLength={40}
           />
         </div>
-        <div className="space-y-1">
-          <Label htmlFor="logo">
-            Tool Logo (your tool&apos;s logo, displayed next to its name)
-          </Label>
-          <Input
-            id="logo"
-            name="logo"
-            type="file"
-            accept="image/*"
-            onChange={handleInputChange}
-          />
-        </div>
+        {selectedFeatures.includes(features[1].name) && (
+          <div className="space-y-1">
+            <Label htmlFor="logo">
+              Tool Logo (your tool&apos;s logo, displayed next to its name)
+            </Label>
+            <Input
+              id="logo"
+              name="logo"
+              type="file"
+              accept="image/*"
+              onChange={handleInputChange}
+            />
+          </div>
+        )}
         <div className="space-y-1">
           <Label htmlFor="image">
             Tool Image (the main image you want users to see, like a landing
@@ -370,7 +375,9 @@ export default function SubmitToolForm() {
         </h3>
 
         <NewProductCard
-          logo={previewLogo}
+          logo={
+            selectedFeatures.includes(features[1].name) ? previewLogo : null
+          }
           image={previewImage}
           name={formData.toolName || ""}
           shortDescription={formData.shortDescription || ""}
@@ -385,7 +392,9 @@ export default function SubmitToolForm() {
               {features.map((feature) => (
                 <div
                   key={feature.name}
-                  className="flex items-center justify-between rounded-md border border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-primary"
+                  className={`flex items-center justify-between rounded-md border border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-primary ${
+                    feature.name === "Base price" && "border-primary"
+                  }`}
                 >
                   <div>
                     <h3 className="font-medium">{feature.name}</h3>
