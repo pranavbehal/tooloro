@@ -58,7 +58,9 @@ export function NewProductCard(props) {
               width={350}
               height={200}
             /> */}
-            {props.image ? (
+
+            {/* OLD VERSION WITH PROPER IMAGES */}
+            {/* {props.image ? (
               <Image
                 src={props.image}
                 alt="Image"
@@ -70,6 +72,23 @@ export function NewProductCard(props) {
               <div className="h-full w-full flex items-center justify-center text-gray-400">
                 No image selected
               </div>
+            )} */}
+            {props.image ? (
+              <Image
+                src={props.image}
+                alt="Image"
+                className="h-full w-full object-cover object-center"
+                width={350}
+                height={200}
+              />
+            ) : (
+              <Image
+                src="/placeholder.jpg"
+                alt="Temporary Image"
+                className="h-full w-full object-cover object-center"
+                width={350}
+                height={200}
+              />
             )}
           </div>
           <CardContent>
