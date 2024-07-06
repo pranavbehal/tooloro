@@ -50,6 +50,7 @@
 // }
 
 import { createClient } from "@supabase/supabase-js";
+import { NewProductCard } from "@/components/component/product-card";
 
 export default async function Page() {
   const supabase = createClient(
@@ -57,13 +58,28 @@ export default async function Page() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   );
 
-  const { data, error } = await supabase.from("todos").select();
-  console.log(data);
-  // return (
-  //   <ul>
-  //     {data?.map((item) => (
-  //       <li key={item}>{item}</li>
-  //     ))}
-  //   </ul>
-  // );
+  const { data, error } = await supabase.from("software").select();
+
+  if (error) {
+    console.error("Error fetching data:", error);
+    return <div>Error loading products</div>;
+  }
+
+  return (
+    <>
+      {data.map((item) => (
+        <NewProductCard
+          key={item.id}
+          image={item.image}
+          logo={item.logo}
+          name={item.tool_name}
+          shortDescription={item.short_description}
+          deal={item.deal}
+          websiteLink={item.link}
+        />
+      ))}
+    </>
+  );
 }
+
+//key, image, logo, name, shortDescription, deal, website
