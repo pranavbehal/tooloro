@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -101,30 +101,33 @@ export default function SubmitToolForm() {
   // };
 
   /* Pricing Code */
-  const features = [
-    {
-      name: "Base price",
-      price: 49,
-      discountPrice: 39,
-      priceToUse: 39,
-      description: "The base price to simply post your product",
-    },
-    {
-      name: "Show my logo on my post",
-      price: 20,
-      discountPrice: 15,
-      priceToUse: 15,
-      description: "Helps promote your brand too!",
-    },
-    {
-      name: "Indexed by our AI Chatbot",
-      price: 30,
-      discountPrice: 25,
-      priceToUse: 25,
-      description:
-        "Your tool could be promoted via our AI Chatbot when a user asks for recommendations",
-    },
-  ];
+  const features = useMemo(
+    () => [
+      {
+        name: "Base price",
+        price: 49,
+        discountPrice: 39,
+        priceToUse: 39,
+        description: "The base price to simply post your product",
+      },
+      {
+        name: "Show my logo on my post",
+        price: 20,
+        discountPrice: 15,
+        priceToUse: 15,
+        description: "Helps promote your brand too!",
+      },
+      {
+        name: "Indexed by our AI Chatbot",
+        price: 30,
+        discountPrice: 25,
+        priceToUse: 25,
+        description:
+          "Your tool could be promoted via our AI Chatbot when a user asks for recommendations",
+      },
+    ],
+    []
+  );
 
   const [selectedFeatures, setSelectedFeatures] = useState([
     features[0].name,
@@ -169,7 +172,7 @@ export default function SubmitToolForm() {
       tutorial.trim() !== "";
 
     setIsFormValid(isValid);
-  }, [formData, selectedFeatures]);
+  }, [formData, selectedFeatures, features]);
 
   const [toggles, setToggles] = useState({
     writing: false,

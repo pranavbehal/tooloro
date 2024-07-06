@@ -11,9 +11,8 @@ const supabaseUrl = "https://ptowzicgyyzrsyocxifw.supabase.co";
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const { error } = await supabase
-  .from("software_advertise")
-  .insert({ id: 1, name: "Example test" });
+let { data, error } = await supabase.from("software_advertise").select("*");
+console.log(data);
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -28,21 +27,23 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="icon" href="/Tooloro_Black.svg" />
-      </head>
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
-        )}
-      >
-        <Navbar />
-        {children}
-      </body>
-      <SpeedInsights />
-      <Analytics />
-    </html>
+    <>
+      <html lang="en">
+        <head>
+          <link rel="icon" href="/Tooloro_Black.svg" />
+        </head>
+        <body
+          className={cn(
+            "min-h-screen bg-background font-sans antialiased",
+            fontSans.variable
+          )}
+        >
+          <Navbar />
+          {children}
+        </body>
+        {/* <SpeedInsights />
+        <Analytics /> */}
+      </html>
+    </>
   );
 }
