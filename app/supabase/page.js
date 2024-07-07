@@ -49,21 +49,15 @@
 //   );
 // }
 
-import { createClient } from "@supabase/supabase-js";
+import { getSoftwareData } from "@/lib/getSoftwareData";
 import { NewProductCard } from "@/components/component/product-card";
 
+// Set it to 5-10 min for prod:
+// export const revalidate = 600;
+export const revalidate = 10;
+
 export default async function Page() {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  );
-
-  const { data, error } = await supabase.from("software").select();
-
-  if (error) {
-    console.error("Error fetching data:", error);
-    return <div>Error loading products</div>;
-  }
+  const data = await getSoftwareData();
 
   return (
     <>
