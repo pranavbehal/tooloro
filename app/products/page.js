@@ -1,28 +1,48 @@
-import { Suspense } from "react";
+"use client";
+
+import { useState, useEffect, useMemo } from "react";
 import { SearchFilter } from "@/components/component/search-filter";
 import { LineProductCards } from "@/components/component/line-product-cards";
 import { getSoftwareData } from "@/lib/getSoftwareData";
 
-export const revalidate = 10;
+export default function Products() {
+  const [allData, setAllData] = useState([]);
+  const [filters, setFilters] = useState({ tags: [], search: "" });
+  const [isLoading, setIsLoading] = useState(true);
 
-export default async function Products({ searchParams }) {
-  const initialData = await getSoftwareData({
-    sortBy: "created_at",
-    sortOrder: "desc",
-    tags: searchParams.tags ? searchParams.tags.split(",") : [],
-    search: searchParams.search || "",
-  });
+  useEffect(() => {
+    async function fetchAllData() {
+      const data = await getSoftwareData();
+      setAllData(data);
+      setIsLoading(false);
+    }
+    fetchAllData();
+  }, []);
+
+  const handleFilterChange = ({ tags, search }) => {
+    setFilters({ tags, search });
+  };
+
+  const filteredData = useMemo(() => {
+    return allData.filter((item) => {
+      const matchesTags =
+        filters.tags.length === 0 ||
+        filters.tags.some((tag) => item.tags.includes(tag));
+      const matchesSearch =
+        filters.search === "" ||
+        item.title.toLowerCase().includes(filters.search.toLowerCase());
+      return matchesTags && matchesSearch;
+    });
+  }, [allData, filters]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
-      <SearchFilter />
-      <Suspense fallback={<div>Loading...</div>}>
-        <ProductList initialData={initialData} />
-      </Suspense>
+      <SearchFilter onFilterChange={handleFilterChange} />
+      <LineProductCards products={filteredData} />
     </div>
   );
-}
-
-function ProductList({ initialData }) {
-  return <LineProductCards products={initialData} />;
 }

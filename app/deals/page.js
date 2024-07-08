@@ -1,89 +1,36 @@
-// "use client";
-
-// import { DealsHero } from "@/components/component/deals-hero";
-// import { LineProductCards } from "@/components/component/line-product-cards";
-
-// import { useState, useEffect } from "react";
-
-// export default function Products() {
-//   const [filteredPosts, setFilteredPosts] = useState([]);
-
-//   const handleFilterChange = ({ tags, search }) => {
-//     // Implement filtering logic here
-//     const filtered = allPosts.filter(
-//       (post) =>
-//         (tags.length === 0 || tags.some((tag) => post.tags.includes(tag))) &&
-//         (search === "" ||
-//           post.title.toLowerCase().includes(search.toLowerCase()))
-//     );
-//     setFilteredPosts(filtered);
-//   };
-
-//   return (
-//     <div>
-//       <DealsHero onFilterChange={handleFilterChange} />
-//       <LineProductCards
-//         posts={filteredPosts}
-//         deals={["33% off", "20% off", "Buy one get one free", "50% off"]}
-//       />
-//     </div>
-//   );
-// }
-
-/////////////////////////////////////////////
-
-"use client";
-
-import { getSoftwareData } from "@/lib/getSoftwareData";
-import { NewProductCard } from "@/components/component/product-card";
-import { DealsHero } from "@/components/component/deals-hero";
+import { Suspense } from "react";
+import { SearchFilter } from "@/components/component/search-filter";
 import { LineProductCards } from "@/components/component/line-product-cards";
-import { useState, useEffect } from "react";
+import { getSoftwareData } from "@/lib/getSoftwareData";
 
-// Set it to 5-10 min for prod:
-// export const revalidate = 600;
 export const revalidate = 10;
 
-export default function Page() {
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getSoftwareData({
-        filterDeals: true,
-        sortBy: "created_at",
-        sortOrder: "desc",
-      });
-    };
-
-    fetchData();
+export default async function Products({ searchParams }) {
+  const initialData = await getSoftwareData({
+    filterDeals: true,
+    sortBy: "created_at",
+    sortOrder: "desc",
+    tags: searchParams.tags ? searchParams.tags.split(",") : [],
+    search: searchParams.search || "",
   });
 
-  const [filteredPosts, setFilteredPosts] = useState([]);
-
-  const handleFilterChange = ({ tags, search }) => {
-    // Implement filtering logic here
-    const filtered = allPosts.filter(
-      (post) =>
-        (tags.length === 0 || tags.some((tag) => post.tags.includes(tag))) &&
-        (search === "" ||
-          post.title.toLowerCase().includes(search.toLowerCase()))
-    );
-    setFilteredPosts(filtered);
-  };
-
   return (
-    <>
-      <DealsHero onFilterChange={handleFilterChange} />
-      {data.map((item) => (
-        <NewProductCard
-          key={item.id}
-          image={item.image}
-          logo={item.logo}
-          name={item.tool_name}
-          shortDescription={item.short_description}
-          deal={item.deal}
-          websiteLink={item.link}
-        />
-      ))}
-    </>
+    <div>
+      <SearchFilter />
+      <Suspense fallback={<div>Loading...</div>}>
+        {initialData.length >= 1 ? (
+          <ProductList initialData={initialData} />
+        ) : (
+          <h2 className="text-center text-2xl font-semibold">
+            Sorry, but we couldn&apos;t find anything with those filters. Please
+            broaden your search!
+          </h2>
+        )}
+      </Suspense>
+    </div>
   );
+}
+
+function ProductList({ initialData }) {
+  return <LineProductCards products={initialData} />;
 }

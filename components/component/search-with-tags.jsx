@@ -45,7 +45,7 @@ export function SearchWithTags({ activeFilters, searchTerm, onFilterChange }) {
   return (
     <>
       <div className="relative overflow-hidden">
-        <div className="container pt-16 pb-12 lg:pt-20 lg:pb-14">
+        <div className="container pt-16 pb-1 lg:pt-20">
           <div className="text-center">
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
               All Products

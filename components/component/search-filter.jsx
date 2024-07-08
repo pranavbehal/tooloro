@@ -22,6 +22,9 @@ export function SearchFilter({ onFilterChange }) {
   }, [searchParams]);
 
   const handleFilterChange = ({ tags, search }) => {
+    setActiveFilters(tags);
+    setSearchTerm(search);
+
     const newSearchParams = new URLSearchParams(searchParams);
     if (tags.length > 0) {
       newSearchParams.set("tags", tags.join(","));
