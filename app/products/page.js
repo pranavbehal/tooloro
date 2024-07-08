@@ -2,7 +2,10 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { SearchFilter } from "@/components/component/search-filter";
-import { LineProductCards } from "@/components/component/line-product-cards";
+import {
+  LineProductCards,
+  SkeletonLineProductCards,
+} from "@/components/component/line-product-cards";
 import { getSoftwareData } from "@/lib/getSoftwareData";
 
 export default function Products() {
@@ -35,14 +38,14 @@ export default function Products() {
     });
   }, [allData, filters]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div>
-      <SearchFilter onFilterChange={handleFilterChange} />
-      <LineProductCards products={filteredData} />
+      <SearchFilter
+        onFilterChange={handleFilterChange}
+        title="All Products"
+        subtitle="Explore our library of software to find the perfect fit for your needs."
+      />
+      {isLoading ? <p></p> : <LineProductCards products={filteredData} />}
     </div>
   );
 }
