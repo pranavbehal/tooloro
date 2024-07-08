@@ -48,7 +48,7 @@ export function NewProductCard(props) {
 
   return (
     <>
-      <div className="group relative">
+      <div className="group relative ">
         <Card className="w-[350px]">
           <div className="h-[200px] w-[350px] overflow-hidden rounded-md bg-gray-200 group-hover:opacity-90 duration-300 rounded-b-none ">
             {/* <Image
@@ -111,8 +111,10 @@ export function NewProductCard(props) {
                 ? props.shortDescription
                 : "A short description of the product."}
             </p>
-            {props.deal && (
+            {props.deal ? (
               <p className="text-primary font-semibold">{props.deal}</p>
+            ) : (
+              <br />
             )}
             {/* {props.} */}
             <div className="flex justify-between mt-4">
