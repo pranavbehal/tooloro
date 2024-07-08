@@ -12,29 +12,35 @@ import {
   Bot,
 } from "lucide-react";
 
-export function SearchWithTags() {
-  const [toggles, setToggles] = useState({
-    writing: false,
-    management: false,
-    marketing: false,
-    design: false,
-    ai: false,
-    productivity: false,
-  });
-
-  const handleToggle = (key) => {
-    setToggles((prev) => ({ ...prev, [key]: !prev[key] }));
+export function SearchWithTags({ activeFilters, searchTerm, onFilterChange }) {
+  const toggleFilter = (filter) => {
+    const newFilters = activeFilters.includes(filter)
+      ? activeFilters.filter((f) => f !== filter)
+      : [...activeFilters, filter];
+    onFilterChange({ tags: newFilters, search: searchTerm });
   };
 
-  const renderButton = (key, icon, label) => (
-    <Button
-      variant={toggles[key] ? "default" : "outline"}
-      onClick={() => handleToggle(key)}
-    >
-      {icon}
-      {label}
-    </Button>
-  );
+  const handleSearch = (e) => {
+    e.preventDefault();
+    onFilterChange({ tags: activeFilters, search: searchTerm });
+  };
+
+  const filterButtons = [
+    { label: "Writing", icon: PenLine, value: "writing" },
+    { label: "Management", icon: SettingsIcon, value: "management" },
+    { label: "Marketing", icon: LineChart, value: "marketing" },
+    {
+      label: "Design & Development",
+      icon: Paintbrush,
+      value: "design and development",
+    },
+    { label: "AI", icon: Bot, value: "ai" },
+    {
+      label: "Productivity & Collaboration",
+      icon: ListChecks,
+      value: "productivity and collaboration",
+    },
+  ];
 
   return (
     <>
@@ -49,7 +55,7 @@ export function SearchWithTags() {
               needs.
             </p>
             <div className="mt-7 sm:mt-12 mx-auto max-w-xl relative">
-              <form>
+              <form onSubmit={handleSearch}>
                 <div className="relative z-10 flex space-x-3 p-3 border bg-background rounded-lg shadow-lg">
                   <div className="flex-[1_0_0%]">
                     <Label htmlFor="product" className="sr-only">
@@ -60,10 +66,17 @@ export function SearchWithTags() {
                       className="h-full"
                       id="article"
                       placeholder="Search for products"
+                      value={searchTerm}
+                      onChange={(e) =>
+                        onFilterChange({
+                          tags: activeFilters,
+                          search: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div className="flex-[0_0_auto]">
-                    <Button size={"icon"}>
+                    <Button type="submit" size={"icon"}>
                       <SearchIcon />
                     </Button>
                   </div>
@@ -118,36 +131,18 @@ export function SearchWithTags() {
               </div>{" "}
             </div>
             <div className="mt-10 sm:mt-20 flex flex-wrap gap-2 justify-center">
-              {renderButton(
-                "writing",
-                <PenLine className="flex-shrink-0 w-3.5 h-auto mr-2" />,
-                "Writing"
-              )}
-              {renderButton(
-                "management",
-                <SettingsIcon className="flex-shrink-0 w-3.5 h-auto mr-2" />,
-                "Management"
-              )}
-              {renderButton(
-                "marketing",
-                <LineChart className="flex-shrink-0 w-3.5 h-auto mr-2" />,
-                "Marketing"
-              )}
-              {renderButton(
-                "design",
-                <Paintbrush className="flex-shrink-0 w-3.5 h-auto mr-2" />,
-                "Design & Development"
-              )}
-              {renderButton(
-                "ai",
-                <Bot className="flex-shrink-0 w-3.5 h-auto mr-2" />,
-                "AI"
-              )}
-              {renderButton(
-                "productivity",
-                <ListChecks className="flex-shrink-0 w-3.5 h-auto mr-2" />,
-                "Productivity & Collaboration"
-              )}
+              {filterButtons.map(({ label, icon: Icon, value }) => (
+                <Button
+                  key={value}
+                  variant={
+                    activeFilters.includes(value) ? "default" : "outline"
+                  }
+                  onClick={() => toggleFilter(value)}
+                >
+                  <Icon className="flex-shrink-0 w-3.5 h-auto mr-2" />
+                  {label}
+                </Button>
+              ))}
             </div>
           </div>
         </div>
