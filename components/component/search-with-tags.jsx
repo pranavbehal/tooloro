@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,16 +19,12 @@ export function SearchWithTags({
   title,
   subtitle,
 }) {
+  // Filtering
   const toggleFilter = (filter) => {
     const newFilters = activeFilters.includes(filter)
       ? activeFilters.filter((f) => f !== filter)
       : [...activeFilters, filter];
     onFilterChange({ tags: newFilters, search: searchTerm });
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    onFilterChange({ tags: activeFilters, search: searchTerm });
   };
 
   const filterButtons = [
@@ -47,6 +43,22 @@ export function SearchWithTags({
       value: "productivity and collaboration",
     },
   ];
+
+  // Searching
+  const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
+
+  useEffect(() => {
+    const debounceTimer = setTimeout(() => {
+      onQuickSearch(localSearchTerm);
+    }, 300);
+
+    return () => clearTimeout(debounceTimer);
+  }, [localSearchTerm, onQuickSearch]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    onFilterChange({ tags: activeFilters, search: localSearchTerm });
+  };
 
   return (
     <>
@@ -72,13 +84,8 @@ export function SearchWithTags({
                           className="h-full"
                           id="article"
                           placeholder="Search for products"
-                          value={searchTerm}
-                          onChange={(e) =>
-                            onFilterChange({
-                              tags: activeFilters,
-                              search: e.target.value,
-                            })
-                          }
+                          value={localSearchTerm}
+                          onChange={(e) => setLocalSearchTerm(e.target.value)}
                         />
                       </div>
                       <div className="flex-[0_0_auto]">
@@ -88,6 +95,26 @@ export function SearchWithTags({
                       </div>
                     </div>
                   </form>
+                  {quickResults.length > 0 && (
+                    <div className="absolute z-20 w-full mt-1 bg-white border rounded-lg shadow-lg">
+                      {quickResults.map((result) => (
+                        <div key={result.id} className="p-2 hover:bg-gray-100">
+                          {result.title}
+                        </div>
+                      ))}
+                      <Button
+                        className="w-full mt-2"
+                        onClick={() =>
+                          onFilterChange({
+                            tags: activeFilters,
+                            search: localSearchTerm,
+                          })
+                        }
+                      >
+                        See all results
+                      </Button>
+                    </div>
+                  )}
                   {/* SVG Illustrations */}
                   <div className="hidden md:block absolute top-0 end-0 -translate-y-12 translate-x-20">
                     <svg

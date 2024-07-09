@@ -31,7 +31,7 @@ export default function Products() {
     return allData.filter((item) => {
       const matchesTags =
         filters.tags.length === 0 ||
-        filters.tags.some((tag) => item.tags.includes(tag));
+        filters.tags.every((tag) => item.tags.includes(tag));
       const matchesSearch =
         filters.search === "" ||
         item.title.toLowerCase().includes(filters.search.toLowerCase());

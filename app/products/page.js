@@ -30,10 +30,14 @@ export default function Products() {
     return allData.filter((item) => {
       const matchesTags =
         filters.tags.length === 0 ||
-        filters.tags.some((tag) => item.tags.includes(tag));
+        filters.tags.every((tag) => item.tags.includes(tag));
+
+      const searchTerm = filters.search.toLowerCase();
       const matchesSearch =
         filters.search === "" ||
-        item.title.toLowerCase().includes(filters.search.toLowerCase());
+        item.title.toLowerCase().includes(searchTerm) ||
+        item.description.toLowerCase().includes(searchTerm);
+
       return matchesTags && matchesSearch;
     });
   }, [allData, filters]);
