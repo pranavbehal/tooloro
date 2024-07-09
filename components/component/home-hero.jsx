@@ -1,40 +1,7 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Image } from "next/image";
-
 import { Label } from "@/components/ui/label";
 import { SearchIcon } from "lucide-react";
-
-export function OldHomeHero() {
-  return (
-    <div className="flex flex-col">
-      <main className="flex-1 mb-8">
-        <section className="bg-muted py-12 md:py-20 lg:py-24">
-          <div className="container space-y-6 px-4 md:px-6 text-center">
-            <div className="space-y-3">
-              <h1 className="text-4xl font-bold  tracking-tighter sm:text-4xl md:text-4xl lg:text-6xl">
-                Software for Your Needs
-              </h1>
-              <p className="max-w-[700px] mx-auto text-muted-foreground md:text-xl lg:text-base/relaxed">
-                Explore our library of software to find the perfect fit for your
-                needs.
-              </p>
-            </div>
-            <div className="relative w-full max-w-md mx-auto">
-              <div className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search software..."
-                className="w-full rounded-lg bg-background pl-4"
-              />
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
-  );
-}
 
 export function HomeHero() {
   return (
@@ -50,21 +17,21 @@ export function HomeHero() {
               needs.
             </p>
             <div className="mt-7 sm:mt-12 mx-auto max-w-xl relative">
-              <form>
+              <form action="/products">
                 <div className="relative z-10 flex space-x-3 p-3 border bg-background rounded-lg shadow-lg">
                   <div className="flex-[1_0_0%]">
-                    <Label htmlFor="product" className="sr-only">
+                    <Label htmlFor="search" className="sr-only">
                       Search for products
                     </Label>
                     <Input
-                      name="article"
+                      name="search"
                       className="h-full"
-                      id="article"
+                      id="search"
                       placeholder="Search for products"
                     />
                   </div>
                   <div className="flex-[0_0_auto]">
-                    <Button size={"icon"}>
+                    <Button type="submit" size={"icon"}>
                       <SearchIcon />
                     </Button>
                   </div>

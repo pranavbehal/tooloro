@@ -19,12 +19,18 @@ export function SearchWithTags({
   title,
   subtitle,
 }) {
+  const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
+
+  useEffect(() => {
+    setLocalSearchTerm(searchTerm);
+  }, [searchTerm]);
+
   // Filtering
   const toggleFilter = (filter) => {
     const newFilters = activeFilters.includes(filter)
       ? activeFilters.filter((f) => f !== filter)
       : [...activeFilters, filter];
-    onFilterChange({ tags: newFilters, search: searchTerm });
+    onFilterChange({ tags: newFilters, search: localSearchTerm });
   };
 
   const filterButtons = [
@@ -44,19 +50,13 @@ export function SearchWithTags({
     },
   ];
 
-  // Searching
-  const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
+  // Search
+  const handleSearchChange = (e) => {
+    setLocalSearchTerm(e.target.value);
+  };
 
-  useEffect(() => {
-    const debounceTimer = setTimeout(() => {
-      onQuickSearch(localSearchTerm);
-    }, 300);
-
-    return () => clearTimeout(debounceTimer);
-  }, [localSearchTerm, onQuickSearch]);
-
-  const handleSearch = (e) => {
-    e.preventDefault();
+  const handleSearchSubmit = (e) => {
+    e ? e.preventDefault() : null;
     onFilterChange({ tags: activeFilters, search: localSearchTerm });
   };
 
@@ -73,7 +73,7 @@ export function SearchWithTags({
               <>
                 {" "}
                 <div className="mt-7 sm:mt-12 mx-auto max-w-xl relative">
-                  <form onSubmit={handleSearch}>
+                  <form onSubmit={handleSearchSubmit}>
                     <div className="relative z-10 flex space-x-3 p-3 border bg-background rounded-lg shadow-lg">
                       <div className="flex-[1_0_0%]">
                         <Label htmlFor="product" className="sr-only">
@@ -85,7 +85,7 @@ export function SearchWithTags({
                           id="article"
                           placeholder="Search for products"
                           value={localSearchTerm}
-                          onChange={(e) => setLocalSearchTerm(e.target.value)}
+                          onChange={handleSearchChange}
                         />
                       </div>
                       <div className="flex-[0_0_auto]">
@@ -95,26 +95,6 @@ export function SearchWithTags({
                       </div>
                     </div>
                   </form>
-                  {quickResults.length > 0 && (
-                    <div className="absolute z-20 w-full mt-1 bg-white border rounded-lg shadow-lg">
-                      {quickResults.map((result) => (
-                        <div key={result.id} className="p-2 hover:bg-gray-100">
-                          {result.title}
-                        </div>
-                      ))}
-                      <Button
-                        className="w-full mt-2"
-                        onClick={() =>
-                          onFilterChange({
-                            tags: activeFilters,
-                            search: localSearchTerm,
-                          })
-                        }
-                      >
-                        See all results
-                      </Button>
-                    </div>
-                  )}
                   {/* SVG Illustrations */}
                   <div className="hidden md:block absolute top-0 end-0 -translate-y-12 translate-x-20">
                     <svg
@@ -190,138 +170,3 @@ export function SearchWithTags({
     </>
   );
 }
-
-/*
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  PenLine,
-  LineChart,
-  SearchIcon,
-  SettingsIcon,
-  Paintbrush,
-  ListChecks,
-  Bot,
-} from "lucide-react";
-
-export function SearchWithTags({ onFilterChange }) {
-  const router = useRouter();
-  const [activeFilters, setActiveFilters] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    // Initialize filters from URL on component mount
-    const { tags, search } = router.query;
-    if (tags) {
-      setActiveFilters(tags.split(","));
-    }
-    if (search) {
-      setSearchTerm(search);
-    }
-  }, []);
-
-  useEffect(() => {
-    // Update URL when filters or search term change
-    const query = {};
-    if (activeFilters.length > 0) {
-      query.tags = activeFilters.join(",");
-    }
-    if (searchTerm) {
-      query.search = searchTerm;
-    }
-    router.push(
-      {
-        pathname: router.pathname,
-        query: query,
-      },
-      undefined,
-      { shallow: true }
-    );
-
-    // Notify parent component about filter changes
-    onFilterChange({ tags: activeFilters, search: searchTerm });
-  }, [activeFilters, searchTerm]);
-
-  const toggleFilter = (filter) => {
-    setActiveFilters((prev) =>
-      prev.includes(filter)
-        ? prev.filter((f) => f !== filter)
-        : [...prev, filter]
-    );
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // The search term is already updated in state, so we just need to notify the parent
-    onFilterChange({ tags: activeFilters, search: searchTerm });
-  };
-
-  const filterButtons = [
-    { label: "Writing", icon: PenLine, value: "writing" },
-    { label: "Management", icon: SettingsIcon, value: "management" },
-    { label: "Marketing", icon: LineChart, value: "marketing" },
-    { label: "Design & Development", icon: Paintbrush, value: "design" },
-    { label: "AI", icon: Bot, value: "ai" },
-    {
-      label: "Productivity & Collaboration",
-      icon: ListChecks,
-      value: "productivity",
-    },
-  ];
-
-  return (
-    <div className="relative overflow-hidden">
-      <div className="container pt-16 pb-12 lg:pt-20 lg:pb-14">
-        <div className="text-center">
-          <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-            All Products
-          </h1>
-          <p className="mt-3 text-xl text-muted-foreground">
-            Explore our library of software to find the perfect fit for your
-            needs.
-          </p>
-          <div className="mt-7 sm:mt-12 mx-auto max-w-xl relative">
-            <form onSubmit={handleSearch}>
-              <div className="relative z-10 flex space-x-3 p-3 border bg-background rounded-lg shadow-lg">
-                <div className="flex-[1_0_0%]">
-                  <Label htmlFor="product" className="sr-only">
-                    Search for products
-                  </Label>
-                  <Input
-                    name="article"
-                    className="h-full"
-                    id="article"
-                    placeholder="Search for products"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
-                <div className="flex-[0_0_auto]">
-                  <Button type="submit" size={"icon"}>
-                    <SearchIcon />
-                  </Button>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div className="mt-10 sm:mt-20 flex flex-wrap gap-2 justify-center">
-            {filterButtons.map(({ label, icon: Icon, value }) => (
-              <Button
-                key={value}
-                variant={activeFilters.includes(value) ? "default" : "outline"}
-                onClick={() => toggleFilter(value)}
-              >
-                <Icon className="flex-shrink-0 w-3.5 h-auto mr-2" />
-                {label}
-              </Button>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-*/

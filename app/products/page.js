@@ -35,8 +35,9 @@ export default function Products() {
       const searchTerm = filters.search.toLowerCase();
       const matchesSearch =
         filters.search === "" ||
-        item.title.toLowerCase().includes(searchTerm) ||
-        item.description.toLowerCase().includes(searchTerm);
+        item.tool_name.toLowerCase().includes(searchTerm) ||
+        item.short_description.toLowerCase().includes(searchTerm) ||
+        item.long_description.toLowerCase().includes(searchTerm);
 
       return matchesTags && matchesSearch;
     });
