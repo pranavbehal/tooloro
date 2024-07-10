@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { SearchFilter } from "@/components/component/search-filter";
 import { LineProductCards } from "@/components/component/line-product-cards";
 import { getSoftwareData } from "@/lib/getSoftwareData";
@@ -10,6 +10,7 @@ export default function Products() {
   const [allData, setAllData] = useState([]);
   const [filters, setFilters] = useState({ tags: [], search: "" });
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -28,6 +29,19 @@ export default function Products() {
 
   const handleFilterChange = ({ tags, search }) => {
     setFilters({ tags, search });
+
+    const newSearchParams = new URLSearchParams(searchParams);
+    if (tags.length > 0) {
+      newSearchParams.set("tags", tags.join(","));
+    } else {
+      newSearchParams.delete("tags");
+    }
+    if (search) {
+      newSearchParams.set("search", search);
+    } else {
+      newSearchParams.delete("search");
+    }
+    router.push(`?${newSearchParams.toString()}`, { scroll: false });
   };
 
   const filteredData = allData.filter((item) => {

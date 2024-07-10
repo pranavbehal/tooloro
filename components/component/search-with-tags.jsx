@@ -10,7 +10,6 @@ import {
   Paintbrush,
   ListChecks,
   Bot,
-  X,
 } from "lucide-react";
 
 export function SearchWithTags({
@@ -93,17 +92,6 @@ export function SearchWithTags({
                           value={localSearchTerm}
                           onChange={handleSearchChange}
                         />
-                        {localSearchTerm && (
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            className="absolute right-2 top-1/2 -translate-y-1/2"
-                            onClick={clearSearch}
-                          >
-                            <X className="h-4 w-4" />
-                          </Button>
-                        )}
                       </div>
                       <div className="flex-[0_0_auto]">
                         <Button type="submit" size={"icon"}>
