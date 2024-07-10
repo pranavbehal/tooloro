@@ -10,7 +10,9 @@ export function Navbar() {
         <Image src="/Tooloro_Black.svg" height="32" width="32" alt="logo" />
         <span className="text-xl font-semibold">Tooloro</span>
       </Link>
-      <nav className="hidden lg:flex items-center gap-6">
+      {/* Go Back to Old Nav styling if I add login/signup back */}
+      {/* <nav className="hidden lg:flex items-center gap-6"> */}
+      <nav className="hidden lg:flex items-center gap-6 absolute left-1/2 transform -translate-x-1/2">
         <Link
           href="/products"
           className="text-m font-medium hover:underline underline-offset-4"
@@ -54,10 +56,10 @@ export function Navbar() {
           Blog
         </Link>
       </nav>
-      <div className="hidden lg:flex items-center gap-4">
+      {/* <div className="hidden lg:flex items-center gap-4">
         <Button variant="outline">Login</Button>
         <Button>Sign Up</Button>
-      </div>
+      </div> */}
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="lg:hidden">
@@ -127,10 +129,10 @@ export function Navbar() {
                 Blog
               </Link>
             </nav>
-            <div className="flex flex-col gap-2">
+            {/* <div className="flex flex-col gap-2">
               <Button variant="outline">Login</Button>
               <Button>Sign Up</Button>
-            </div>
+            </div> */}
           </div>
         </SheetContent>
       </Sheet>

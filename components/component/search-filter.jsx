@@ -4,22 +4,25 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SearchWithTags } from "@/components/component/search-with-tags";
 
-export function SearchFilter({ onFilterChange, title, subtitle }) {
+export function SearchFilter({
+  onFilterChange,
+  initialSearch,
+  initialTags,
+  title,
+  subtitle,
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [activeFilters, setActiveFilters] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [activeFilters, setActiveFilters] = useState(initialTags || []);
+  const [searchTerm, setSearchTerm] = useState(initialSearch || "");
 
   useEffect(() => {
     const tags = searchParams.get("tags");
-    const search = searchParams.get("search");
     if (tags) {
       setActiveFilters(tags.split(","));
     }
-    if (search) {
-      setSearchTerm(search);
-    }
-  }, [searchParams]);
+    setSearchTerm(initialSearch || "");
+  }, [searchParams, initialSearch, initialTags]);
 
   const handleFilterChange = ({ tags, search }) => {
     setActiveFilters(tags);

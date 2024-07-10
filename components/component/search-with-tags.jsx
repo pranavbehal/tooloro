@@ -10,6 +10,7 @@ import {
   Paintbrush,
   ListChecks,
   Bot,
+  X,
 } from "lucide-react";
 
 export function SearchWithTags({
@@ -56,8 +57,13 @@ export function SearchWithTags({
   };
 
   const handleSearchSubmit = (e) => {
-    e ? e.preventDefault() : null;
+    e.preventDefault();
     onFilterChange({ tags: activeFilters, search: localSearchTerm });
+  };
+
+  const clearSearch = () => {
+    setLocalSearchTerm("");
+    onFilterChange({ tags: activeFilters, search: "" });
   };
 
   return (
@@ -87,6 +93,17 @@ export function SearchWithTags({
                           value={localSearchTerm}
                           onChange={handleSearchChange}
                         />
+                        {localSearchTerm && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-2 top-1/2 -translate-y-1/2"
+                            onClick={clearSearch}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        )}
                       </div>
                       <div className="flex-[0_0_auto]">
                         <Button type="submit" size={"icon"}>
@@ -145,12 +162,12 @@ export function SearchWithTags({
                 </div>
               </>
             )}
-
             <div
               className={` ${
                 title === "Deals" ? "mt-8 sm:m-12" : "mt-10 sm:mt-20"
               }}  flex flex-wrap gap-2 justify-center`}
             >
+              {" "}
               {filterButtons.map(({ label, icon: Icon, value }) => (
                 <Button
                   key={value}
