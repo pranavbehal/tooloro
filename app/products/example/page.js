@@ -12,7 +12,7 @@ export default async function BlogPostPage({ params }) {
     <>
       <ProductInfo
         title={post.title}
-        description={post.description}
+        short_description={post.description}
         content={post.content}
       />
     </>

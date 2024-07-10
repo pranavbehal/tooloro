@@ -6,23 +6,54 @@ export default function ProductInfo(props) {
     <div className="w-full max-w-6xl mx-auto py-12 md:py-16 lg:py-20 px-4 md:px-6">
       <div className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16">
         <div className="flex flex-col items-start justify-center">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            {props.title}
-          </h1>
-          <p className="text-muted-foreground text-lg md:text-xl mb-6">
-            {props.description}
-          </p>
-          <Link
-            href="#"
-            className="inline-flex items-center justify-center h-10 px-6 rounded-md bg-primary text-primary-foreground font-medium shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-            prefetch={false}
+          <div className="flex items-center gap-3 mt-5">
+            {props.logo && (
+              <Image
+                src={props.logo}
+                alt="logo"
+                width={40}
+                height={10}
+                className="rounded-full"
+              />
+            )}
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              {props.title}
+            </h1>
+          </div>
+          <p
+            className={`text-muted-foreground text-lg md:text-xl ${
+              props.deal ? "mb-0" : "mb-6"
+            }`}
           >
-            Visit Website
-          </Link>
+            {props.short_description}
+          </p>
+          {props.deal && (
+            <p className="md:text-l mb-6 font-semibold">{props.deal}</p>
+          )}
+          <div className="flex gap-4">
+            <Link
+              href={props.link}
+              className="inline-flex items-center justify-center h-10 px-6 rounded-md bg-primary text-primary-foreground font-medium shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+              prefetch={false}
+              target="_blank"
+            >
+              Visit Website
+            </Link>
+            {props.tutorial && (
+              <Link
+                href={props.tutorial}
+                className="inline-flex items-center justify-center h-10 px-6 rounded-md bg-primary text-primary-foreground font-medium shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                prefetch={false}
+                target="_blank"
+              >
+                Visit Docs/Tutorial
+              </Link>
+            )}
+          </div>
         </div>
         <div className="flex justify-center">
           <Image
-            src="/placeholder.jpg"
+            src={props.image}
             alt={props.title}
             width={600}
             height={400}
@@ -30,6 +61,9 @@ export default function ProductInfo(props) {
           />
         </div>
       </div>
+      <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold mt-12 md:mt-16 lg:mt-20 text-center">
+        {props.long_description}
+      </h2>
       <div className="mt-12 md:mt-16 lg:mt-20">
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
           Features
@@ -38,6 +72,7 @@ export default function ProductInfo(props) {
           <div className="grid gap-2">
             <h3 className="text-xl font-semibold">Feature 1</h3>
             <p className="text-muted-foreground">
+              {" "}
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id mi
               a nisl sodales, imperdiet purus eget, tincidunt dui.
             </p>
