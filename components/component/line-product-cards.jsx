@@ -73,6 +73,7 @@ export function LineProductCards({ title, products, cta }) {
         {products.map((product, index) => (
           <div key={product.id || index} className="flex justify-center">
             <NewProductCard
+              id={product.id}
               image={product.image}
               logo={product.logo}
               name={product.tool_name}

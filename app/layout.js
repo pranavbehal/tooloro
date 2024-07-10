@@ -22,7 +22,7 @@ const fontSans = FontSans({
 export const metadata = {
   title: "Tooloro",
   description:
-    "A place for creators, cofounders, and more to find the software and tools they need.",
+    "A place for creators, founders, and more to find the software and tools they need.",
 };
 
 export default function RootLayout({ children }) {

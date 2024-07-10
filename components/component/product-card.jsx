@@ -123,7 +123,7 @@ export function NewProductCard(props) {
             )}
             {/* {props.} */}
             <div className="flex justify-between mt-4">
-              <Link href="/products/example">
+              <Link href={`/products/${props.id}`}>
                 <Button variant="outline">Learn More</Button>
               </Link>
               {/* This commented out link is when the user doesn't provide a https:// */}
@@ -132,13 +132,13 @@ export function NewProductCard(props) {
                 target="_blank"
                 rel="noopener"
               > */}
-              <a
+              <Link
                 href={props.website ? props.website : "#"}
                 target="_blank"
                 rel="noopener"
               >
                 <Button>Visit Product</Button>
-              </a>
+              </Link>
             </div>
           </CardContent>
         </Card>

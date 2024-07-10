@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { SearchFilter } from "@/components/component/search-filter";
 import { LineProductCards } from "@/components/component/line-product-cards";
 import { getSoftwareData } from "@/lib/getSoftwareData";
+import { Suspense } from "react";
 
 export default function Products() {
   const [allData, setAllData] = useState([]);
@@ -46,13 +47,15 @@ export default function Products() {
 
   return (
     <div>
-      <SearchFilter
-        onFilterChange={handleFilterChange}
-        initialSearch={filters.search}
-        initialTags={filters.tags}
-        title="All Products"
-        subtitle="Explore our library of software to find the perfect fit for your needs."
-      />
+      <Suspense>
+        <SearchFilter
+          onFilterChange={handleFilterChange}
+          initialSearch={filters.search}
+          initialTags={filters.tags}
+          title="All Products"
+          subtitle="Explore our library of software to find the perfect fit for your needs."
+        />
+      </Suspense>
       {isLoading ? (
         <p></p>
       ) : filteredData.length > 0 ? (
