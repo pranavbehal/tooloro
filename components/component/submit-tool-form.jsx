@@ -32,6 +32,7 @@ import {
   ListChecks,
   Bot,
 } from "lucide-react";
+import { CheckoutButton } from "./checkout-button";
 
 export default function SubmitToolForm() {
   const [formData, setFormData] = useState({
@@ -439,11 +440,7 @@ export default function SubmitToolForm() {
           </CardFooter>
         </Card>
 
-        <Button disabled={!isFormValid} className="ml-auto mr-auto mt-3">
-          {!isFormValid
-            ? "Please fill out all required fields"
-            : "Continue to Checkout"}
-        </Button>
+        <CheckoutButton isFormValid={isFormValid} />
       </div>
     </div>
   );
